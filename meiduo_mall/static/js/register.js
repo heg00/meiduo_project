@@ -218,7 +218,7 @@ var vm = new Vue({
             this.check_pwd();
             this.check_cpwd();
             this.check_phone();
-            this.check_sms_code();
+            // this.check_sms_code();
             this.check_allow();
 
             if (this.error_name == true || this.error_password == true || this.error_check_password == true
@@ -234,7 +234,7 @@ var vm = new Vue({
             //     password2: this.password2,
             //     mobile: this.mobile,
             //     // 'image_code':this.image_code,
-            //     sms_code: this.sms_code,
+            //     // sms_code: this.sms_code,
             //     allow: this.allow
             // }, {
             //     responseType: 'json'
