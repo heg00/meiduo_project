@@ -3,7 +3,7 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.meiduo.site', '127.0.0.1']
 
 DATABASES = {
     'default': {
@@ -15,24 +15,6 @@ DATABASES = {
         'NAME': 'meiduo' # 数据库名字
     },
 }
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.jinja2.Jinja2',  # 1.jinja2模板引擎
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], # 2.模本文件夹路径
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-            # 3.加载Jinja2模板引擎环境
-            'environment': 'utils.jinja2_env.jinja2_environment',
-        },
-    },
-]
 
 CACHES = {
     "default": { # 默认
