@@ -8,16 +8,27 @@ from django.urls import reverse
 from django.views import View
 
 from apps.users.models import User
+from meiduo_mall.settings.dev import logger
 from utils.response_code import RETCODE
 
 
 class RegisterView(View):
     @staticmethod
     def get(request):
+        """
+        请求注册页面
+        :param request:
+        :return: render()
+        """
         return render(request, 'register.html')
 
     @staticmethod
     def post(request):
+        """
+        提交表单时的逻辑
+        :param request:
+        :return: redirect(index.html) or render(register.html)
+        """
         # 注册时的表单数据接受和判定
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -47,6 +58,7 @@ class RegisterView(View):
         try:
             user = User.objects.create_user(username=username, password=password, mobile=mobile)
         except DatabaseError:
+            # logger.error(e)
             return render(request, 'register.html', {'register_errmsg': '注册失败'})
         # django内部封装的login(),可以保持会话状态
         # from django.contrib.auth import login
@@ -58,6 +70,15 @@ class RegisterView(View):
 class UsernameCountView(View):
     @staticmethod
     def get(request, username):
+        """
+        验证用户名是否重复
+        :param request:
+        :param username:用户名
+        :return: 'code':'','errmsg':'','count':
+        """
+        if not re.match(r'^[a-zA-Z0-9_-]{5,20}$', username):
+            return http.HttpResponseForbidden('请输入5-20个字符的用户名')
+
         count = User.objects.filter(username=username).count()
         return http.JsonResponse({'code': RETCODE.OK, 'errmsg': 'OK', 'count': count})
 
@@ -65,5 +86,13 @@ class UsernameCountView(View):
 class MobileCountView(View):
     @staticmethod
     def get(request, mobile):
+        """
+        验证手机号是否重复
+        :param request:
+        :param mobile:手机号码
+        :return: 'code':'','errmsg':'','count':
+        """
+        if not re.match(r'^1[3-9]\d{9}$', mobile):
+            return http.HttpResponseForbidden('请输入正确的手机号码')
         count = User.objects.filter(mobile=mobile).count()
         return http.JsonResponse({'code': RETCODE.OK, 'errmsg': 'OK', 'count': count})
