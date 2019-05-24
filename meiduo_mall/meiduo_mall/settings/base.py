@@ -34,6 +34,7 @@ SECRET_KEY = 'bw$k4a4dqw3@+athtk)ygen4j9mgs=kjfi1o#ex3)*zgys)*wh'
 INSTALLED_APPS = [
     'apps.users',
     'apps.contents',
+    'apps.verifications',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
