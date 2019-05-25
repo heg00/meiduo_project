@@ -57,9 +57,9 @@
                     <li>
                         <label>图形验证码:</label>
                         {#                        <input type="text" name="pic_code" id="pic_code" class="msg_input">#}
-                        <input type="text" v-model="image_code" name="image_code" id="pic_code"
+                        <input type="text" v-model="image_code" @blur="check_image_code" name="image_code" id="pic_code"
                                class="msg_input">
-                        <img src="{{ static('images/pic_code.jpg') }}" @click="generate_image_code" alt="图形验证码" class="pic_code">
+                        <img v-bind:src="image_code_url" @click="generate_image_code" alt="图形验证码" class="pic_code">
                         <span class="error_tip" v-show="error_image_code">[[ error_image_code_message ]]</span>
                     </li>
                     <li>
