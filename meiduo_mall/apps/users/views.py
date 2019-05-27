@@ -1,7 +1,7 @@
 import re
 
 from django import http
-from django.contrib.auth import login
+from django.contrib.auth import login,authenticate
 from django.db import DatabaseError
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -76,7 +76,6 @@ class RegisterView(View):
             # logger.error(e)
             return render(request, 'register.html', {'register_errmsg': '注册失败'})
         # django内部封装的login(),可以保持会话状态
-        from django.contrib.auth import login
         login(request, user)
 
         #  namespace:name   主路由:子路由 注册成功，直接跳转到主页index
@@ -134,3 +133,48 @@ class MobileCountView(View):
 #             return http.JsonResponse(content={'code': RETCODE.SMSCODERR, 'errmsg': '短信验证码输入错误'})
 #         sms_client.delete('%s' % mobile)
 #         return http.JsonResponse(content={'code': RETCODE.OK, 'errmsg': 'ok'})
+
+
+class LoginView(View):
+    @staticmethod
+    def get(request):
+        return render(request, 'login.html')
+
+    @staticmethod
+    def post(request):
+        """
+        登陆界面提交表单 --- username password remembered--是否记住
+        :param request:
+        :return: HTML
+        """
+        #
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        remembered = request.POST.get('remembered')
+
+        # 不要相信前端 -- 还是要自己判断
+        if not all([username, password]):
+            return http.HttpResponseForbidden('参数不齐全')
+        if not re.match(r'[a-zA-Z0-9_-]{5,20}', username):
+            return http.HttpResponseForbidden('请输入5-20个字符的用户名')
+        if not re.match(r'^[0-9a-zA-z]{8,20}$', password):
+            return http.HttpResponseForbidden('请输入8-20位的密码')
+        # 根据username ,password 获取当前的数据库中的账号对象 -- authenticate 是django 自带的
+        user = authenticate(username=username,password=password)
+        # 如果没有找到对应的账户，返回错误响应
+        if user is None:
+            return render(request, 'login.html', {'account_errmsg': '用户名或密码错误'})
+        # 保持登陆状态
+        login(request,user)
+
+        # 判断是否需要记住账号
+        if remembered == 'on':
+            # 浏览器记住当前的账户
+            request.session.set_expiry(None)
+        else:
+            # 关闭浏览器则过期
+            request.session.set_expiry(0)
+
+        return render(request, 'index.html')
+
+
