@@ -143,8 +143,26 @@ var vm = new Vue({
                 this.error_sms_code_message = '请填写短信验证码';
                 this.error_sms_code = true;
             } else {
-                this.error_sms_code = false;
-            }
+                    this.error_sms_code = false;
+                }
+            //     var url = this.host + '/sms/';
+            //     axios.post(url,{
+            //         mobile: this.mobile,
+            //         sms_code: this.sms_code,}).
+            //         then(response => {
+            //         if(response.data.code == '0')
+            //         {
+            //             this.error_sms_code = false;
+            //         }
+            //         else {
+            //             this.error_sms_code = true;
+            //             this.error_sms_code_message = response.data.errmsg;
+            //         }
+            //
+            //     }).catch(error => {
+            //     console.log(error);
+            // })
+
         },
         // 检查是否勾选协议
         check_allow: function () {
@@ -214,11 +232,12 @@ var vm = new Vue({
         },
         // 表单提交
         on_submit(){
+
             this.check_username();
             this.check_pwd();
             this.check_cpwd();
             this.check_phone();
-            // this.check_sms_code();
+            this.check_sms_code();
             this.check_allow();
 
             if (this.error_name == true || this.error_password == true || this.error_check_password == true
