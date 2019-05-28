@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # 指向 users 子应用  -- 用户
     url(r'^', include('apps.users.urls', namespace='users')),
-    # 指向 contents 子应用 -- 广告
+    # 指向 contents 子应用 -- 广告 --- 首页
     url(r'^', include('apps.contents.urls', namespace='contents')),
     # 指向 verifications -- 验证码
     url(r'^', include('apps.verifications.urls', namespace='verifications')),

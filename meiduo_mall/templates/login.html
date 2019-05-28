@@ -12,7 +12,7 @@
 <body>
 	<div id="app" v-cloak>
 	<div class="login_top clearfix">
-		<a href="index.html" class="login_logo"><img src="{{ static('images/logo02.png') }}"></a>
+		<a href="{{ url('contents:index') }}" class="login_logo"><img src="{{ static('images/logo02.png') }}"></a>
 	</div>
 	<div class="login_form_bg">
 		<div class="login_form_wrap clearfix">
@@ -29,7 +29,7 @@
 							<input type="text" @blur="check_username"  v-model="username" name="username" class="name_input" placeholder="请输入用户">
 							<div class="user_error" v-show="error_username">[[error_username_message]]</div>
                             {% if account_errmsg %}
-                                <span>{{ account_errmsg }}</span>
+                                <span class="pwd_error">{{ account_errmsg }}</span>
                             {% endif %}
                             <input type="password" @blur="check_pwd" v-model="password" name="password" class="pass_input" placeholder="请输入密码">
 							<div class="pwd_error" v-show="error_password">[[error_password_message]]</div>
@@ -44,7 +44,7 @@
 				<div class="third_party">
 					<a href="javascript:;" class="qq_login">QQ</a>
 					<a href="#" class="weixin_login">微信</a>
-					<a href="register.html" class="register_btn">立即注册</a>
+					<a href="{{ url('users:register') }}" class="register_btn">立即注册</a>
 				</div>
 
 			</div>

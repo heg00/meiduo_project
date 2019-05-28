@@ -5,6 +5,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['www.meiduo.site', '127.0.0.1']
 
+AUTHENTICATION_BACKENDS = ['apps.users.utils.UsernameMobileAuthBackend']
+# 当用户没登陆时，点击用户中心 会跳转的页面 LOGIN_URL  ---LoginRequiredMixin中父类的属性
+LOGIN_URL = '/login/'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # 数据库引擎
@@ -67,7 +71,7 @@ LOGGING = {
     },
     'handlers': {  # 日志处理方法
         'console': {  # 向终端中输出日志
-            'level': 'INFO',
+            'level': 'ERROR',
             'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
@@ -92,3 +96,12 @@ LOGGING = {
 # 实例化日志对象
 import logging
 logger = logging.getLogger('django')
+
+
+# 邮箱配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # 指定邮件后端
+EMAIL_HOST = 'smtp.163.com' # 发邮件主机
+EMAIL_PORT = 25 # 发邮件端口
+EMAIL_HOST_USER = '13103858662@163.com' # 授权的邮箱
+EMAIL_HOST_PASSWORD = 'heg781764470' # 邮箱授权时获得的密码，非注册登录密码
+EMAIL_FROM = '美多商城<hmmeiduo@163.com>' # 发件人抬头

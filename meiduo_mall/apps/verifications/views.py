@@ -71,8 +71,8 @@ class SMSCodeView(View):
         # 2.2 发送短信给 mobile 用户
         # CCP().send_template_sms(mobile, [smscode, 5], 1)
         # 使用 celery 异步发送短信
-        from celery_tasks.sms.tasks import cpp_send_sms_code
-        cpp_send_sms_code.delay(mobile, smscode)
+        # from celery_tasks.sms.tasks import cpp_send_sms_code
+        # cpp_send_sms_code.delay(mobile, smscode)
         # 创建redis 的 pipeline, 提高服务器的执行效率
         pl = sms_client.pipeline()
         # 2.3 将 mobile 当做唯一标识符 key 来存储 sms_code（短信验证码）
@@ -80,4 +80,5 @@ class SMSCodeView(View):
         # 2.4 添加当前smscode 的存在标致，防止信息发送过于频繁
         pl.setex('send_flag_%s' % mobile, constants.SEND_SMS_CODE_INTERVAL, 1)
         pl.execute()
+        print("smscode",smscode)
         return http.JsonResponse({'code': '0', 'errrmsg': '信息发送成功'})

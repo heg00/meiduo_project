@@ -1,6 +1,6 @@
 from celery_tasks.main import celery_app
 
-
+# 这里用于注册 当前任务 如果不明白参考 route 分发，这个相当于功能函数
 @celery_app.task
 def cpp_send_sms_code(mobile, sms_code):
     """

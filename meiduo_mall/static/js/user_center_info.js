@@ -20,7 +20,6 @@ var vm = new Vue({
         // 额外处理用户数据
         this.email_active = (this.email_active=='True') ? true : false;
         this.set_email = (this.email=='') ? true : false;
-
         // 请求浏览历史记录
         this.browse_histories();
     },
